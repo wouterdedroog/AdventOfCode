@@ -9,9 +9,9 @@ def get_priority(char)
 end
 
 priority_sum = 0
-lines.each_slice(3).each_with_index do |lines, index|
+lines.each_slice(3).each do |lines|
   first,second,third = lines.map(&:chomp)
-  duplicate = first.chars.select{|char| second.include?(char) && third.include?(char)}.first
+  duplicate = first.chars.select { |char| second.include?(char) && third.include?(char) }.first
   priority_sum += get_priority(duplicate)
 end
 p priority_sum

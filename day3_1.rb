@@ -9,7 +9,7 @@ def get_priority(char)
 end
 
 priority_sum = 0
-lines.each_with_index do |line, index|
+lines.each do |line|
   first,second = line.partition(/.{#{line.size/2}}/)[1,2]
   duplicate = first.chars.select{|char| second.include? char}.first
   priority_sum += get_priority(duplicate)

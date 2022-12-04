@@ -17,7 +17,7 @@ strategies = {
 }
 
 points = 0
-lines.each_with_index do |line, index|
+lines.each do |line|
   opponent = definitions[line.chars[0]]
   response = definitions[line.chars[2]]
 
