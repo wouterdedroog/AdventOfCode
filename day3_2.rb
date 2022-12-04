@@ -8,10 +8,6 @@ def get_priority(char)
   end
 end
 
-def split_into_parts(string)
-  [string[0, string.length/3], string[string.length/3, string.length/3], string[string.length/3*2, string.length/3*3]]
-end
-
 priority_sum = 0
 lines.each_slice(3).each_with_index do |lines, index|
   first,second,third = lines.map(&:chomp)
