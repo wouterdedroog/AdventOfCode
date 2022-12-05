@@ -15,4 +15,3 @@ lines.each_slice(3).each do |lines|
   priority_sum += get_priority(duplicate)
 end
 p priority_sum
-
