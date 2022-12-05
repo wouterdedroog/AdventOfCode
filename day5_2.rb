@@ -14,9 +14,7 @@ lines = lines.select { |line| line.include? 'move' }
              .map { |line| line.match(/move (\d{1,2}) from (\d) to (\d)/) }
 
 lines.each do |match_data|
-  amount = match_data[1].to_i
-  from = match_data[2].to_i
-  to = match_data[3].to_i
+  amount, from, to = match_data[1..3].map(&:to_i)
 
   rows[to].concat(rows[from].last(amount))
   rows[from].pop(amount)
