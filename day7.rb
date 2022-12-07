@@ -28,9 +28,9 @@ end
 # <solution>
 
 def get_file_size_for_redundant_directory(directory_obj)
-  directory_obj.map { |file_or_directory|
+  directory_obj.map do |file_or_directory|
     file_or_directory[1].is_a?(Integer) ? file_or_directory[1] : get_file_size_for_redundant_directory(file_or_directory[1]).sum
-  }
+  end
 end
 
 def get_file_size_for_directory(selected_directory)
@@ -38,7 +38,7 @@ def get_file_size_for_directory(selected_directory)
 end
 
 def get_directories(directory_structure)
-  directory_structure.reject { |file_or_directory, size_or_directory| size_or_directory.is_a? Integer }
+  directory_structure.reject { |_, size_or_directory| size_or_directory.is_a? Integer }
 end
 
 $directories = {}
