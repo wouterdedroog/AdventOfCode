@@ -37,24 +37,22 @@ def get_directories(directory_structure)
   directory_structure.reject { |_, size_or_directory| size_or_directory.is_a? Integer }
 end
 
-$directories = {}
-
-def loop_directories(directory, name_prefix = nil)
+def loop_directories(directory, directories={}, name_prefix = nil)
   get_directories(directory).each do |key, directory|
-    directory_name = name_prefix.nil? ? key : name_prefix + '.' + key
+    directory_name = name_prefix.nil? ? key : "#{name_prefix}.#{key}"
     directory_size = get_file_size_for_directory(directory)
 
-    $directories[directory_name] = directory_size
+    directories[directory_name] = directory_size
 
-    loop_directories(directory, directory_name)
+    loop_directories(directory, directories, directory_name)
   end
+  directories
 end
 
-loop_directories(directory_structure)
-sum_of_directories = $directories.reject { |_, sum| sum > 100_000 }.values.sum
+directories = loop_directories(directory_structure)
+sum_of_directories = directories.reject { |_, sum| sum > 100_000 }.values.sum
 necessary_space = get_file_size_for_directory(directory_structure) - 40_000_000
-smallest_directory = $directories.sort_by { |_, value| value }.to_h.filter { |_, value| value > necessary_space }.first
+smallest_directory = directories.sort_by { |_, value| value }.to_h.filter { |_, value| value > necessary_space }.first
 
 puts "pt1: The total sum of directories with a size of 100.000 is #{sum_of_directories}"
 puts "pt2: We need to free up #{necessary_space}, the smallest directory that would suffice would be #{smallest_directory}"
-
