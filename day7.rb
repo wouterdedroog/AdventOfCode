@@ -27,14 +27,10 @@ end
 # </parsing>
 # <solution>
 
-def get_file_size_for_redundant_directory(directory_obj)
-  directory_obj.map do |file_or_directory|
-    file_or_directory[1].is_a?(Integer) ? file_or_directory[1] : get_file_size_for_redundant_directory(file_or_directory[1]).sum
-  end
-end
-
-def get_file_size_for_directory(selected_directory)
-  get_file_size_for_redundant_directory(selected_directory).sum
+def get_file_size_for_directory(directory_obj)
+  directory_obj.map { |file_or_directory|
+    file_or_directory[1].is_a?(Integer) ? file_or_directory[1] : get_file_size_for_directory(file_or_directory[1])
+  }.sum
 end
 
 def get_directories(directory_structure)
@@ -42,6 +38,7 @@ def get_directories(directory_structure)
 end
 
 $directories = {}
+
 def loop_directories(directory, name_prefix = nil)
   get_directories(directory).each do |key, directory|
     directory_name = name_prefix.nil? ? key : name_prefix + '.' + key
@@ -56,7 +53,7 @@ end
 loop_directories(directory_structure)
 sum_of_directories = $directories.reject { |_, sum| sum > 100_000 }.values.sum
 necessary_space = get_file_size_for_directory(directory_structure) - 40_000_000
-smallest_directory = $directories.sort_by { |_,value| value}.to_h.filter { |_, value| value > necessary_space}.first
+smallest_directory = $directories.sort_by { |_, value| value }.to_h.filter { |_, value| value > necessary_space }.first
 
 puts "pt1: The total sum of directories with a size of 100.000 is #{sum_of_directories}"
 puts "pt2: We need to free up #{necessary_space}, the smallest directory that would suffice would be #{smallest_directory}"
