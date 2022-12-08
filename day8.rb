@@ -2,9 +2,9 @@ lines = File.open('inputs/day8.txt').readlines.map(&:chomp)
 
 def get_relevant_lines(lines, x, y)
   [
-    lines[y][0..x - 1].reverse, # reverse line for pt2
+    lines[y][0..x - 1].reverse, # reverse line for easy looping in pt2
     lines[y][x + 1..-1],
-    lines.map { |line| line[x] }.join[0..y - 1].reverse, # reverse line for pt2
+    lines.map { |line| line[x] }.join[0..y - 1].reverse, # reverse line for easy looping in pt2
     lines.map { |line| line[x] }.join[y + 1..-1]
   ]
 end
@@ -26,7 +26,7 @@ scenic_scores = []
 lines.each_with_index do |line, y|
   next if y.zero? || y + 1 == lines.size # skip borders
 
-  line.chars.each_with_index do |_, x|
+  line.chars.each_index do |x|
     next if x.zero? || x + 1 == line.length # skip borders
 
     visible_trees += 1 if tree_visible?(lines, x, y)
