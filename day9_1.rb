@@ -34,16 +34,10 @@ lines.map { |line| line.split(' ')[0..1] }.each do |line|
   tail_x, tail_y = previous_position[:T][0..1]
 
   steps.times do
-    case movement
-    when 'U'
-      head_y += 1
-    when 'D'
-      head_y -= 1
-    when 'R'
-      head_x += 1
-    when 'L'
-      head_x -= 1
-    end
+    head_y += 1 if movement == 'U'
+    head_y -= 1 if movement == 'D'
+    head_x += 1 if movement == 'R'
+    head_x -= 1 if movement == 'L'
 
     tail_x, tail_y = get_tail_position(head_x, head_y, tail_x, tail_y)[0..1]
     puts "Command #{movement} received, moved to #{head_x}, #{head_y} from #{previous_position[:H][0]}, #{previous_position[:H][1]}"
