@@ -27,25 +27,25 @@ end
 
 def solve(number_of_tails)
   visited_positions = []
-  previous_position = []
+  previous_positions = []
 
   LINES.map { |line| line.split(' ')[0..1] }.each do |line|
     movement = line[0]
     steps = line[1].to_i
 
-    head_x, head_y = (previous_position[0] ||= [0, 0])[0..1]
+    head_x, head_y = (previous_positions[0] ||= [0, 0])[0..1]
 
     steps.times do
       head_x, head_y = move(head_x, head_y, movement)
 
-      previous_position[0] = [head_x, head_y]
+      previous_positions[0] = [head_x, head_y]
 
       (1..number_of_tails).each do |knot|
-        tail_x, tail_y = (previous_position[knot] ||= [0, 0])[0..1]
-        previous_tail_x, previous_tail_y = previous_position[knot - 1][0..1]
-        tail_x, tail_y = get_tail_position(previous_tail_x, previous_tail_y, tail_x, tail_y)[0..1]
+        tail_x, tail_y = (previous_positions[knot] ||= [0, 0])[0..1]
+        next_knot_x, next_knot_y = previous_positions[knot - 1][0..1]
+        tail_x, tail_y = get_tail_position(next_knot_x, next_knot_y, tail_x, tail_y)[0..1]
 
-        previous_position[knot] = [tail_x, tail_y]
+        previous_positions[knot] = [tail_x, tail_y]
         visited_positions.push([tail_x, tail_y]) if knot == number_of_tails
       end
     end
