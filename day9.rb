@@ -1,4 +1,4 @@
-lines = File.open('inputs/day9_example.txt').readlines.map(&:chomp)
+lines = File.open('inputs/day9.txt').readlines.map(&:chomp)
 
 visited_positions = []
 previous_position = {
@@ -15,16 +15,14 @@ def get_tail_position(head_x, head_y, tail_x, tail_y)
 
   diff_x = head_x - tail_x
   diff_y = head_y - tail_y
-  old_tail_x, old_tail_y = tail_x, tail_y
 
-  if diff_x.abs > 1
+  if diff_x.abs >= 1
     tail_x += diff_x.positive? ? 1 : -1
   end
-  if diff_y.abs > 1
+  if diff_y.abs >= 1
     tail_y += diff_y.positive? ? 1 : -1
   end
 
-  puts "Tail moved from #{old_tail_x},#{old_tail_y} to #{tail_x},#{tail_y}"
   [tail_x, tail_y]
 end
 
@@ -47,10 +45,13 @@ lines.map { |line| line.split(' ')[0..1] }.each do |line|
       head_x -= 1
     end
 
+    tail_x, tail_y = get_tail_position(head_x, head_y, tail_x, tail_y)[0..1]
     puts "Command #{movement} received, moved to #{head_x}, #{head_y} from #{previous_position[:H][0]}, #{previous_position[:H][1]}"
+    puts "Tail moved from #{previous_position[:T].join(',')} to #{tail_x},#{tail_y}" if previous_position[:T] != [tail_x, tail_y]
 
     previous_position[:H] = [head_x, head_y]
-    previous_position[:T] = get_tail_position(head_x, head_y, tail_x, tail_y)
+    previous_position[:T] = [tail_x, tail_y]
+
     visited_positions.push(previous_position[:T])
   end
 end
