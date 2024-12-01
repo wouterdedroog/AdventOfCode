@@ -1,13 +1,6 @@
 lines = File.open('inputs/day1.txt').readlines
 
-first = []
-second = []
-
-lines.each do |line|
-  split = line.split('   ')
-  first += [split[0].to_i]
-  second += [split[1].to_i]
-end
+first, second = lines.map { |line| line.split('   ').map(&:to_i) }.transpose
 
 puts "part 2: #{first.map { |x| x * second.count(x) }.sum}"
 
