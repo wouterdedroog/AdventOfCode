@@ -1,8 +1,8 @@
 lines = File.open('inputs/day5.txt').readlines
             .map {|l| l.chomp }
+
 ordering_rules = lines.filter { |l| l.include? '|'}
                       .map { |l| l.split('|').map(&:to_i) }
-
 updates = lines.filter { |l| !l.empty? and !l.include? '|' }
                .map { |l| l.split(',').map(&:to_i) }
 
@@ -26,8 +26,7 @@ part1 = updates.filter { |update| do_update(update, ordering_rules) == update }
                .sum
 puts "Part 1: #{part1}"
 
-part2 = updates.map { |update| fixed = do_update(update, ordering_rules); fixed if fixed != update }
-         .compact
+part2 = updates.filter_map { |update| fixed = do_update(update, ordering_rules); fixed if fixed != update }
          .map { |update| update[update.count / 2] }
          .sum
 puts "Part 2: #{part2}"
