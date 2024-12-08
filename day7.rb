@@ -17,7 +17,6 @@ def evaluate_left_to_right(numbers, option)
         end
 
         last = outcome
-        outcome
     end).last
 end
 
@@ -29,7 +28,7 @@ def is_solvable(line, operators)
 end
 
 operators = %w[+ *]
-puts "Part 1: #{lines.compact.sum { |line| is_solvable(line, operators) }}"
+puts "Part 1: #{lines.sum { |line| is_solvable(line, operators) }}"
 
 operators = %w[+ * ||]
-puts "Part 2: #{lines.compact.sum { |line| is_solvable(line, operators) }}"
+puts "Part 2: #{lines.sum { |line| is_solvable(line, operators) }}"
